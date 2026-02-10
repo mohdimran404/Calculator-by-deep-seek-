@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator App</title>
+    
+    <!-- Favicon (calculator icon) -->
+    <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/vault.css">
+    
+    <!-- Font for calculator display -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Digital+7&family=Roboto:wght@300;400;500&display=swap">
+    
+    <!-- Meta tags for security and appearance -->
+    <meta name="theme-color" content="#2c3e50">
+    <meta name="description" content="A simple and easy-to-use online calculator">
+</head>
+<body>
+    <!-- Main Container -->
+    <div class="container">
+        
+        <!-- HEADER - Looks like a normal app header -->
+        <header class="app-header">
+            <h1>Calculator</h1>
+            <div class="header-subtitle">Simple & Easy to Use</div>
+        </header>
+
+        <!-- CALCULATOR SECTION (Visible by default) -->
+        <main class="calculator-section" id="calculatorSection">
+            
+            <!-- Calculator Display -->
+            <div class="calculator-display">
+                <div class="display-value" id="display">0</div>
+                <div class="display-memory" id="memory"></div>
+            </div>
+            
+            <!-- Calculator Buttons Grid -->
+            <div class="calculator-buttons">
+                <!-- First Row -->
+                <button class="btn btn-function" data-action="clear">C</button>
+                <button class="btn btn-function" data-action="backspace">⌫</button>
+                <button class="btn btn-function" data-action="percentage">%</button>
+                <button class="btn btn-operator" data-action="divide">÷</button>
+                
+                <!-- Second Row -->
+                <button class="btn btn-number" data-number="7">7</button>
+                <button class="btn btn-number" data-number="8">8</button>
+                <button class="btn btn-number" data-number="9">9</button>
+                <button class="btn btn-operator" data-action="multiply">×</button>
+                
+                <!-- Third Row -->
+                <button class="btn btn-number" data-number="4">4</button>
+                <button class="btn btn-number" data-number="5">5</button>
+                <button class="btn btn-number" data-number="6">6</button>
+                <button class="btn btn-operator" data-action="subtract">−</button>
+                
+                <!-- Fourth Row -->
+                <button class="btn btn-number" data-number="1">1</button>
+                <button class="btn btn-number" data-number="2">2</button>
+                <button class="btn btn-number" data-number="3">3</button>
+                <button class="btn btn-operator" data-action="add">+</button>
+                
+                <!-- Fifth Row -->
+                <button class="btn btn-number btn-zero" data-number="0">0</button>
+                <button class="btn btn-number" data-action="decimal">.</button>
+                <button class="btn btn-equals" data-action="equals">=</button>
+            </div>
+            
+            <!-- Calculator Branding (Looks authentic) -->
+            <div class="calculator-brand">
+                <span class="brand-name">CalcPro</span>
+                <span class="version">v2.1</span>
+            </div>
+        </main>
+
+        <!-- SECRET PIN SCREEN (Hidden by default) -->
+        <div class="pin-screen" id="pinScreen" style="display: none;">
+            <div class="pin-container">
+                <h2>Enter PIN</h2>
+                <p class="pin-instruction">Enter 4-digit code to access</p>
+                
+                <!-- PIN Display (shows * for entered digits) -->
+                <div class="pin-display">
+                    <span class="pin-digit">•</span>
+                    <span class="pin-digit">•</span>
+                    <span class="pin-digit">•</span>
+                    <span class="pin-digit">•</span>
+                </div>
+                
+                <!-- PIN Keypad -->
+                <div class="pin-keypad">
+                    <button class="pin-btn" data-pin="1">1</button>
+                    <button class="pin-btn" data-pin="2">2</button>
+                    <button class="pin-btn" data-pin="3">3</button>
+                    
+                    <button class="pin-btn" data-pin="4">4</button>
+                    <button class="pin-btn" data-pin="5">5</button>
+                    <button class="pin-btn" data-pin="6">6</button>
+                    
+                    <button class="pin-btn" data-pin="7">7</button>
+                    <button class="pin-btn" data-pin="8">8</button>
+                    <button class="pin-btn" data-pin="9">9</button>
+                    
+                    <button class="pin-btn" data-action="clear">C</button>
+                    <button class="pin-btn" data-pin="0">0</button>
+                    <button class="pin-btn" data-action="backspace">⌫</button>
+                </div>
+                
+                <!-- Status Message (for wrong attempts, lockout timer) -->
+                <div class="pin-status" id="pinStatus"></div>
+                
+                <!-- Cancel Button (goes back to calculator) -->
+                <button class="btn-cancel" id="cancelPin">Cancel</button>
+            </div>
+        </div>
+
+        <!-- HIDDEN VAULT SECTION (Hidden by default) -->
+        <div class="vault-section" id="vaultSection" style="display: none;">
+            <div class="vault-header">
+                <h2>Secure Vault</h2>
+                <button class="btn-logout" id="logoutVault">Logout</button>
+            </div>
+            
+            <!-- Vault Navigation Tabs -->
+            <div class="vault-tabs">
+                <button class="vault-tab active" data-tab="photos">Photos</button>
+                <button class="vault-tab" data-tab="videos">Videos</button>
+                <button class="vault-tab" data-tab="files">Files</button>
+                <button class="vault-tab" data-tab="recordings">Recordings</button>
+            </div>
+            
+            <!-- Vault Content Areas -->
+            <div class="vault-content">
+                
+                <!-- Photos Tab Content -->
+                <div class="vault-tab-content active" id="photosTab">
+                    <div class="empty-vault-message" id="photosEmpty">
+                        No photos in vault. Admin can add content via admin panel.
+                    </div>
+                    <div class="vault-grid" id="photosGrid"></div>
+                </div>
+                
+                <!-- Videos Tab Content -->
+                <div class="vault-tab-content" id="videosTab">
+                    <div class="empty-vault-message" id="videosEmpty">
+                        No videos in vault. Admin can add content via admin panel.
+                    </div>
+                    <div class="vault-grid" id="videosGrid"></div>
+                </div>
+                
+                <!-- Files Tab Content -->
+                <div class="vault-tab-content" id="filesTab">
+                    <div class="empty-vault-message" id="filesEmpty">
+                        No files in vault. Admin can add content via admin panel.
+                    </div>
+                    <div class="file-list" id="filesList"></div>
+                </div>
+                
+                <!-- Recordings Tab Content -->
+                <div class="vault-tab-content" id="recordingsTab">
+                    <div class="empty-vault-message" id="recordingsEmpty">
+                        No recordings in vault. Admin can add content via admin panel.
+                    </div>
+                    <div class="file-list" id="recordingsList"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BOTTOM TEXT (Secret trigger for vault) -->
+        <footer class="app-footer">
+            <p class="footer-text" id="secretTrigger">
+                This is a Calculator Web App
+            </p>
+            <div class="footer-links">
+                <a href="privacy-policy.html" class="footer-link">Privacy Policy</a>
+                <span class="separator">•</span>
+                <a href="terms-conditions.html" class="footer-link">Terms & Conditions</a>
+            </div>
+            <div class="footer-copyright">
+                © 2023 Calculator App. All rights reserved.
+            </div>
+        </footer>
+    </div>
+
+    <!-- JavaScript Files (deferred for better loading) -->
+    <script src="js/calculator.js" defer></script>
+    <script src="js/vault.js" defer></script>
+    <script src="js/security.js" defer></script>
+    <script src="js/drive-handler.js" defer></script>
+    
+    <!-- Admin panel is NOT linked here - only accessible via direct URL -->
+</body>
+  </html>
