@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Calculator Vault</title>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/styles.css">
+    
+    <!-- Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
+    
+    <style>
+        /* Admin-only warning */
+        .admin-warning {
+            background-color: #e74c3c;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+            border-left: 5px solid #c0392b;
+        }
+        
+        /* Admin header */
+        .admin-header {
+            background: linear-gradient(to right, #2c3e50, #3498db);
+            color: white;
+            padding: 25px;
+            text-align: center;
+            margin-bottom: 30px;
+            border-radius: 0 0 20px 20px;
+        }
+        
+        .admin-header h1 {
+            margin: 0;
+            font-size: 32px;
+            font-weight: 500;
+        }
+        
+        .admin-subtitle {
+            opacity: 0.8;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        
+        /* Admin navigation */
+        .admin-nav {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .admin-nav-btn {
+            padding: 12px 25px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .admin-nav-btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        .admin-nav-btn.active {
+            background-color: #2c3e50;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        /* Admin sections */
+        .admin-section {
+            display: none;
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .admin-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        /* Form styling */
+        .admin-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #2c3e50;
+            font-size: 16px;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border 0.3s ease;
+        }
+        
+        .form-input:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+        
+        .form-help {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-top: 8px;
+            font-style: italic;
+        }
+        
+        .form-warning {
+            color: #e74c3c;
+            font-weight: 500;
+        }
+        
+        /* Button styling */
+        .btn-admin {
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            max-width: 300px;
+            display: block;
+            margin: 30px auto 0;
+        }
+        
+        .btn-admin:hover {
+            background-color: #219653;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
+        }
+        
+        .btn-admin.delete {
+            background-color: #e74c3c;
+        }
+        
+        .btn-admin.delete:hover {
+            background-color: #c0392b;
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+        }
+        
+        /* Instructions box */
+        .instructions-box {
+            background-color: #f8f9fa;
+            border-left: 4px solid #3498db;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 8px;
+        }
+        
+        .instructions-box h3 {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+        
+        .instructions-box code {
+            background-color: #e9ecef;
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+        
+        /* Content list */
+        .content-list {
+            margin-top: 30px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .content-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            background-color: white;
+        }
+        
+        .content-item:last-child {
+            border-bottom: none;
+        }
+        
+        .content-item:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .content-info h4 {
+            margin: 0 0 5px 0;
+            color: #2c3e50;
+        }
+        
+        .content-info p {
+            margin: 0;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        
+        .content-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn-small {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-delete {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        .btn-delete:hover {
+            background-color: #c0392b;
+        }
+        
+        /* Back link */
+        .back-link {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .back-link a {
+            color: #3498db;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .admin-nav {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .content-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .content-actions {
+                width: 100%;
+                justify-content: flex-end;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Warning Banner -->
+    <div class="admin-warning">
+        ⚠️ <strong>ADMIN ACCESS ONLY</strong> - This panel is not linked from the main site for security.
+    </div>
+    
+    <!-- Admin Header -->
+    <header class="admin-header">
+        <h1>Calculator Vault - Admin Panel</h1>
+        <div class="admin-subtitle">Manage PIN and vault content securely</div>
+    </header>
+    
+    <!-- Main Container -->
+    <div class="container" style="max-width: 900px;">
+        <!-- Admin Navigation -->
+        <nav class="admin-nav">
+            <button class="admin-nav-btn active" data-section="pin">Change PIN</button>
+            <button class="admin-nav-btn" data-section="content">Manage Content</button>
+            <button class="admin-nav-btn" data-section="instructions">Instructions</button>
+        </nav>
+        
+        <!-- 1. CHANGE PIN SECTION -->
+        <section id="pinSection" class="admin-section active">
+            <h2 style="color: #2c3e50; margin-bottom: 25px;">Change Vault PIN</h2>
+            
+            <form id="pinForm" class="admin-form">
+                <div class="form-group">
+                    <label class="form-label" for="currentPIN">Current PIN</label>
+                    <input type="password" id="currentPIN" class="form-input" 
+                           placeholder="Enter current 4-digit PIN" maxlength="4" pattern="\d{4}">
+                    <div class="form-help">Enter the current vault PIN to authorize changes</div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="newPIN">New PIN</label>
+                    <input type="password" id="newPIN" class="form-input" 
+                           placeholder="Enter new 4-digit PIN" maxlength="4" pattern="\d{4}">
+                    <div class="form-help">Choose a new 4-digit PIN (numbers only)</div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="confirmPIN">Confirm New PIN</label>
+                    <input type="password" id="confirmPIN" class="form-input" 
+                           placeholder="Confirm new 4-digit PIN" maxlength="4" pattern="\d{4}">
+                    <div class="form-help">Re-enter the new PIN to confirm</div>
+                </div>
+                
+                <div id="pinMessage" class="form-help" style="text-align: center; margin-top: 20px;"></div>
+                
+                <button type="submit" class="btn-admin">Update PIN</button>
+            </form>
+            
+            <div class="instructions-box">
+                <h3>PIN Security Tips:</h3>
+                <ul>
+                    <li>Don't use obvious PINs like 1234, 0000, or 2580</li>
+                    <li>Avoid using personal numbers (birthdates, anniversaries)</li>
+                    <li>Consider using a random 4-digit combination</li>
+                    <li>Remember: If you forget the PIN, you'll lose access to the vault</li>
+                    <li>The default PIN is <strong>1234</strong> if you haven't changed it</li>
+                </ul>
+            </div>
+        </section>
+        
+        <!-- 2. MANAGE CONTENT SECTION -->
+        <section id="contentSection" class="admin-section">
+            <h2 style="color: #2c3e50; margin-bottom: 25px;">Manage Vault Content</h2>
+            
+            <!-- Add Content Form -->
+            <div class="instructions-box">
+                <h3>Add Google Drive Content</h3>
+                
+                <form id="addContentForm" class="admin-form">
+                    <div class="form-group">
+                        <label class="form-label" for="driveLink">Google Drive Link</label>
+                        <input type="text" id="driveLink" class="form-input" 
+                               placeholder="https://drive.google.com/file/d/FILE_ID/view">
+                        <div class="form-help">
+                            Paste the Google Drive share link (must be set to "Anyone with the link")
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="fileName">Display Name</label>
+                        <input type="text" id="fileName" class="form-input" 
+                               placeholder="Enter a name for this file">
+                        <div class="form-help">
+                            This name will appear in the vault (e.g., "Vacation Photo 2023")
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="contentCategory">Category</label>
+                        <select id="contentCategory" class="form-input">
+                            <option value="auto">Auto-detect from file type</option>
+                            <option value="photos">Photos</option>
+                            <option value="videos">Videos</option>
+                            <option value="files">Files</option>
+                            <option value="recordings">Recordings</option>
+                        </select>
+                        <div class="form-help">
+                            Choose a category or let the system auto-detect
+                        </div>
+                    </div>
+                    
+                    <div id="addContentMessage" class="form-help" style="text-align: center; margin-top: 20px;"></div>
+                    
+                    <button type="submit" class="btn-admin">Add to Vault</button>
+                </form>
+            </div>
+            
+            <!-- View/Delete Content -->
+            <div class="instructions-box">
+                <h3>Current Vault Content</h3>
+                <p>Click "Refresh List" to see all content in the vault. Deleting here only removes from vault, not from Google Drive.</p>
+                
+                <div style="text-align: center; margin: 20px 0;">
+                    <button id="refreshContent" class="btn-admin" style="max-width: 200px;">Refresh Content List</button>
+                </div>
+                
+                <!-- Content will be loaded here -->
+                <div id="contentListContainer">
+                    <div style="text-align: center; padding: 40px; color: #7f8c8d;">
+                        Click "Refresh List" to load vault content
+                    </div>
+                </div>
+                
+                <div style="margin-top: 30px;">
+                    <button id="clearAllContent" class="btn-admin delete" style="max-width: 250px;">
+                        Clear All Vault Content
+                    </button>
+                    <div class="form-help form-warning" style="text-align: center;">
+                        ⚠️ This will remove ALL content from the vault (but not from Google Drive)
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 3. INSTRUCTIONS SECTION -->
+        <section id="instructionsSection" class="admin-section">
+            <h2 style="color: #2c3e50; margin-bottom: 25px;">Google Drive Instructions</h2>
+            
+            <div class="instructions-box">
+                <h3>How to Add Google Drive Content</h3>
+                
+                <h4>Step 1: Upload to Google Drive</h4>
+                <ol>
+                    <li>Upload your file (photo, video, document, etc.) to Google Drive</li>
+                    <li>Right-click the file and select "Get link"</li>
+                    <li>Set link sharing to <strong>"Anyone with the link"</strong></li>
+                    <li>Click "Copy link"</li>
+                </ol>
+                
+                <h4>Step 2: Link Formats</h4>
+                <p>The copied link will look like this:</p>
+                <code>https://drive.google.com/file/d/FILE_ID/view</code>
+                
+                <p><strong>For Videos (Embeddable Player):</strong></p>
+                <code>https://drive.google.com/file/d/FILE_ID/preview</code>
+                
+                <p><strong>For Photos/Files (Direct Download):</strong></p>
+                <code>https://drive.google.com/uc?id=FILE_ID&export=download</code>
+                
+                <p class="form-help">Note: The admin panel will automatically convert standard links to the correct format.</p>
+                
+                <h4>Step 3: Add to Admin Panel</h4>
+                <ol>
+                    <li>Go to "Manage Content" section</li>
+                    <li>Paste the Google Drive link</li>
+                    <li>Enter a display name</li>
+                    <li>Select category or use "Auto-detect"</li>
+                    <li>Click "Add to Vault"</li>
+                </ol>
+                
+                <h4>Important Security Notes:</h4>
+                <ul>
+                    <li>Files remain in YOUR Google Drive account</li>
+                    <li>Only the link is stored in the vault</li>
+                    <li>Deleting from vault ≠ deleting from Google Drive</li>
+                    <li>Use Google Drive's security settings for file protection</li>
+                    <li>You can revoke access by changing sharing settings in Google Drive</li>
+                </ul>
+            </div>
+            
+            <div class="instructions-box">
+                <h3>Admin Security Tips</h3>
+                <ul>
+                    <li>Bookmark this page - it's not linked from the main site</li>
+                    <li>Clear browser history after admin sessions on shared computers</li>
+                    <li>Use a strong PIN (not the default 1234)</li>
+                    <li>Regularly review and clean vault content</li>
+                    <li>Log out of Google Drive on shared devices</li>
+                </ul>
+            </div>
+        </section>
+        
+        <!-- Back to Calculator Link -->
+        <div class="back-link">
+            <a href="index.html">← Back to Calculator</a>
+        </div>
+    </div>
+    
+    <!-- JavaScript Files -->
+    <script src="js/vault.js" defer></script>
+    <script src="js/drive-handler.js" defer></script>
+    <script src="js/admin.js" defer></script>
+    
+    <script>
+        // Simple navigation script
+        document.addEventListener('DOMContentLoaded', function() {
+            const navButtons = document.querySelectorAll('.admin-nav-btn');
+            const sections = document.querySelectorAll('.admin-section');
+            
+            navButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetSection = this.dataset.section;
+                    
+                    // Update active button
+                    navButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show target section
+                    sections.forEach(section => {
+                        section.classList.remove('active');
+                        if (section.id === targetSection + 'Section') {
+                            section.classList.add('active');
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
