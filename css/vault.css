@@ -1,0 +1,485 @@
+/* ============================================
+   CALCULATOR VAULT - SECRET VAULT STYLES
+   Styles for PIN screen and hidden vault
+============================================ */
+
+/* 1. PIN SCREEN STYLES */
+.pin-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #2c3e50 0%, #4a6491 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
+}
+
+.pin-container {
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 40px 30px;
+    width: 90%;
+    max-width: 350px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    backdrop-filter: blur(10px);
+}
+
+.pin-container h2 {
+    color: #2c3e50;
+    font-size: 28px;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.pin-instruction {
+    color: #7f8c8d;
+    font-size: 14px;
+    margin-bottom: 30px;
+}
+
+/* PIN Display (the 4 dots) */
+.pin-display {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.pin-digit {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #ecf0f1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    color: #2c3e50;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.pin-digit.filled {
+    background-color: #3498db;
+    color: white;
+    transform: scale(1.1);
+}
+
+.pin-digit.error {
+    background-color: #e74c3c;
+    color: white;
+    animation: shake 0.5s ease;
+}
+
+/* PIN Keypad */
+.pin-keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 15px;
+    margin-bottom: 25px;
+}
+
+.pin-btn {
+    border: none;
+    border-radius: 15px;
+    height: 70px;
+    font-size: 24px;
+    font-weight: 500;
+    background-color: #ffffff;
+    color: #2c3e50;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.pin-btn:hover {
+    background-color: #f1f2f6;
+    transform: translateY(-2px);
+}
+
+.pin-btn:active {
+    transform: scale(0.95);
+}
+
+.pin-btn[data-action="clear"] {
+    background-color: #95a5a6;
+    color: white;
+}
+
+.pin-btn[data-action="backspace"] {
+    background-color: #e74c3c;
+    color: white;
+}
+
+/* PIN Status Message */
+.pin-status {
+    min-height: 24px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.pin-status.error {
+    color: #e74c3c;
+    font-weight: 500;
+}
+
+.pin-status.success {
+    color: #27ae60;
+    font-weight: 500;
+}
+
+.pin-status.lockout {
+    color: #e67e22;
+    font-weight: 500;
+}
+
+/* Cancel Button */
+.btn-cancel {
+    background-color: transparent;
+    border: 2px solid #95a5a6;
+    color: #95a5a6;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.btn-cancel:hover {
+    background-color: #95a5a6;
+    color: white;
+}
+
+/* 2. VAULT SECTION STYLES */
+.vault-section {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 100%;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: white;
+    padding: 20px;
+    animation: slideUp 0.5s ease;
+    display: none;
+}
+
+.vault-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.vault-header h2 {
+    font-size: 28px;
+    font-weight: 500;
+    color: #00ff9d;
+    text-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
+}
+
+.btn-logout {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-logout:hover {
+    background-color: #c0392b;
+    transform: translateY(-2px);
+}
+
+/* Vault Tabs */
+.vault-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+    overflow-x: auto;
+    padding-bottom: 5px;
+}
+
+.vault-tab {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    flex: 1;
+    min-width: 80px;
+    text-align: center;
+}
+
+.vault-tab:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: white;
+}
+
+.vault-tab.active {
+    background-color: #3498db;
+    color: white;
+    box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+}
+
+/* Vault Content Area */
+.vault-content {
+    min-height: 400px;
+    position: relative;
+}
+
+/* Tab Content */
+.vault-tab-content {
+    display: none;
+    animation: fadeIn 0.5s ease;
+}
+
+.vault-tab-content.active {
+    display: block;
+}
+
+/* Empty Vault Message */
+.empty-vault-message {
+    text-align: center;
+    padding: 60px 20px;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 16px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    border: 2px dashed rgba(255, 255, 255, 0.1);
+}
+
+/* Grid Layout for Photos/Videos */
+.vault-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.vault-item {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    position: relative;
+    aspect-ratio: 1/1;
+}
+
+.vault-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.vault-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.vault-item video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background-color: #000;
+}
+
+.vault-item-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    padding: 15px;
+    color: white;
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.vault-item:hover .vault-item-overlay {
+    opacity: 1;
+}
+
+/* List Layout for Files/Recordings */
+.file-list {
+    margin-top: 20px;
+}
+
+.file-item {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.file-item:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    transform: translateX(5px);
+}
+
+.file-icon {
+    width: 40px;
+    height: 40px;
+    background-color: #3498db;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 15px;
+    font-size: 20px;
+}
+
+.file-info {
+    flex: 1;
+}
+
+.file-name {
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.file-size {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.file-download {
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.file-download:hover {
+    background-color: #219653;
+}
+
+/* 3. ANIMATIONS */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(52, 152, 219, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(52, 152, 219, 0); }
+}
+
+.pin-digit.success {
+    animation: pulse 0.5s ease;
+    background-color: #27ae60;
+}
+
+/* 4. LOCKOUT TIMER STYLES */
+.lockout-timer {
+    font-size: 16px;
+    font-weight: bold;
+    color: #e67e22;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: rgba(230, 126, 34, 0.1);
+    border-radius: 10px;
+    border: 1px solid rgba(230, 126, 34, 0.3);
+}
+
+/* 5. RESPONSIVE DESIGN FOR VAULT */
+@media (max-width: 480px) {
+    .pin-container {
+        padding: 30px 20px;
+    }
+    
+    .pin-digit {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+    }
+    
+    .pin-btn {
+        height: 60px;
+        font-size: 22px;
+    }
+    
+    .vault-tabs {
+        flex-wrap: wrap;
+    }
+    
+    .vault-tab {
+        flex: 1 0 calc(50% - 10px);
+        font-size: 14px;
+        padding: 10px;
+    }
+    
+    .vault-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+}
+
+@media (max-width: 350px) {
+    .vault-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* 6. SECURITY BLUR EFFECT (for screenshot attempts) */
+.security-blur {
+    filter: blur(20px) brightness(0.5);
+    transition: filter 0.5s ease;
+}
+
+.security-warning {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(231, 76, 60, 0.9);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    padding: 20px;
+    animation: fadeIn 0.3s ease;
+}
